@@ -253,7 +253,12 @@ class LibraryItem {
   }
 
   getDirectPlayTracklist(episodeId) {
-    return this.media.getDirectPlayTracklist(episodeId)
+    return this.media.getDirectPlayTracklist(episodeId).map((item) => {
+      return {
+        ...item,
+        metadata: null
+      }
+    })
   }
 
   /**
