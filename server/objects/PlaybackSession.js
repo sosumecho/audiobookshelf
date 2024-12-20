@@ -86,6 +86,24 @@ class PlaybackSession {
    * @returns
    */
   toJSONForClient(libraryItem) {
+    libraryItem = libraryItem?.toJSONMinified()
+    if (libraryItem && libraryItem.media) {
+      delete libraryItem.media.metadata
+    }
+    let contentURLPrefix = ''
+    const audioTracks = this.audioTracks
+      .map((at) => at.toJSON?.() || { ...at })
+      .map((item) => {
+        if (contentURLPrefix === '') {
+          const contentURLArr = item.contentUrl.split('/')
+          item.contentUrl = contentURLArr.pop()
+          contentURLPrefix = contentURLArr.join('/')
+        } else {
+          item.contentUrl = item.contentUrl.split('/').pop()
+        }
+        return item
+      })
+
     return {
       id: this.id,
       userId: this.userId,
@@ -94,25 +112,26 @@ class PlaybackSession {
       bookId: this.bookId,
       episodeId: this.episodeId,
       mediaType: this.mediaType,
-      mediaMetadata: this.mediaMetadata?.toJSON() || null,
-      chapters: (this.chapters || []).map((c) => ({ ...c })),
+      // mediaMetadata: this.mediaMetadata?.toJSON() || null,
+      // chapters: (this.chapters || []).map((c) => ({ ...c })),
       displayTitle: this.displayTitle,
       displayAuthor: this.displayAuthor,
       coverPath: this.coverPath,
       duration: this.duration,
       playMethod: this.playMethod,
       mediaPlayer: this.mediaPlayer,
-      deviceInfo: this.deviceInfo?.toJSON() || null,
-      serverVersion: this.serverVersion,
-      date: this.date,
-      dayOfWeek: this.dayOfWeek,
+      // deviceInfo: this.deviceInfo?.toJSON() || null,
+      // serverVersion: this.serverVersion,
+      // date: this.date,
+      // dayOfWeek: this.dayOfWeek,
       timeListening: this.timeListening,
       startTime: this.startTime,
       currentTime: this.currentTime,
-      startedAt: this.startedAt,
-      updatedAt: this.updatedAt,
-      audioTracks: this.audioTracks.map((at) => at.toJSON?.() || { ...at }),
-      libraryItem: libraryItem?.toJSONMinified() || null
+      // startedAt: this.startedAt,
+      // updatedAt: this.updatedAt,
+      audioTracks: audioTracks,
+      audioTracksPrefix: contentURLPrefix,
+      libraryItem: libraryItem || null
     }
   }
 

@@ -254,10 +254,16 @@ class LibraryItem {
 
   getDirectPlayTracklist(episodeId) {
     return this.media.getDirectPlayTracklist(episodeId).map((item) => {
-      return {
+      let data = {
         ...item,
         metadata: null
       }
+      delete data.index
+      delete data.title
+      delete data.mimeType
+      delete data.codec
+      delete data.metadata
+      return data
     })
   }
 
