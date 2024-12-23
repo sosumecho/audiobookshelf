@@ -90,19 +90,18 @@ class PlaybackSession {
     if (libraryItem && libraryItem.media) {
       delete libraryItem.media.metadata
     }
-    let contentURLPrefix = ''
-    const audioTracks = this.audioTracks
-      .map((at) => at.toJSON?.() || { ...at })
-      .map((item) => {
-        if (contentURLPrefix === '') {
-          const contentURLArr = item.contentUrl.split('/')
-          item.contentUrl = contentURLArr.pop()
-          contentURLPrefix = contentURLArr.join('/')
-        } else {
-          item.contentUrl = item.contentUrl.split('/').pop()
-        }
-        return item
-      })
+    // let contentURLPrefix = ''
+    const audioTracks = this.audioTracks.map((at) => at.toJSON?.() || { ...at })
+    // .map((item) => {
+    //   if (contentURLPrefix === '') {
+    //     const contentURLArr = item.contentUrl.split('/')
+    //     item.contentUrl = contentURLArr.pop()
+    //     contentURLPrefix = contentURLArr.join('/')
+    //   } else {
+    //     item.contentUrl = item.contentUrl.split('/').pop()
+    //   }
+    //   return item
+    // })
 
     return {
       id: this.id,
@@ -130,7 +129,7 @@ class PlaybackSession {
       // startedAt: this.startedAt,
       // updatedAt: this.updatedAt,
       audioTracks: audioTracks,
-      audioTracksPrefix: contentURLPrefix,
+      // audioTracksPrefix: contentURLPrefix,
       libraryItem: libraryItem || null
     }
   }

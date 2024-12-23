@@ -227,7 +227,7 @@ export default class PlayerHandler {
     console.log('[PlayerHandler] Preparing Session', session)
 
     var audioTracks = session.audioTracks.map((at) => {
-      at.contentUrl = `${session.audioTracksPrefix}/${at.contentUrl}`
+      // at.contentUrl = `${session.audioTracksPrefix}/${at.contentUrl}`
       return new AudioTrack(at, this.userToken)
     })
 
